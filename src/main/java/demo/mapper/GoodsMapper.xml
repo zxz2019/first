@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace表示命名空间 -->
+<mapper namespace="demo.mapper.GoodsMapper">
+	<!--根据商品编号获取商品信息 -->
+	<select id="findGoodsById" parameterType="Integer"
+			resultType="demo.pojo.Goods">
+		select *
+		from goods
+		where id = #{id};
+	</select>
+
+	<!--&lt;!&ndash;根据商品名模糊查询商品信息列表&ndash;&gt;-->
+	<select id="findGoodByName" parameterType="String"
+			resultType="demo.pojo.Goods">
+		<!-- select * from t_customer where username like '%${value}%' -->
+		select * from goods where goodname like concat('%', #{value},'%');
+	</select>
+
+	<!-- 添加客户信息 -->
+	<insert id="addGoods" parameterType="demo.pojo.Goods">
+		INSERT INTO goods (`goodname`, `gooddescr`, `goodprice`)
+		VALUES (#{goodname}, #{gooddescr}, #{goodprice});
+	</insert>
+
+	<!--&lt;!&ndash; 更新客户信息 &ndash;&gt;-->
+	<update id="updateGoods" parameterType="demo.pojo.Goods">
+		update goods
+		set goodname=#{goodname},
+			gooddescr=#{gooddescr},
+			goodprice=#{goodprice}
+		where id = #{id}
+	</update>
+
+	<!--&lt;!&ndash; 删除客户信息 &ndash;&gt;-->
+	<delete id="deleteGoods" parameterType="Integer">
+		delete
+		from goods
+		where id = #{id}
+	</delete>
+</mapper>
